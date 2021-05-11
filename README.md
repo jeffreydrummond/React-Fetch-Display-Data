@@ -1,2 +1,3 @@
-# React-Fetch-Display-Data
-Assignment to fetch data from remote url and display.
+# dataFetch
+Uses useEffect and useReduce to manage fetch of online data.
+
