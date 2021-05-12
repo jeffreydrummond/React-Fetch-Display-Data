@@ -1,24 +1,24 @@
-const divStyle = {
-    color: 'blue'
-  };
-
-  const mystyle = {
-    color: "white",
-    backgroundColor: "DodgerBlue",
-    padding: "10px",
-    fontFamily: "Arial"
-  };
+const mystyle = {
+  color: "white",
+  backgroundColor: "DodgerBlue",
+  padding: "10px",
+  fontFamily: "Arial"
+};
 
 const Header = () => {
-return (
+  return (
+    <div className="container">
+      <div>
         <div className="row" style={mystyle}>
-            <div className="col"></div>
-            <div className="col" ><h3>Cocktail Name</h3></div>
-            <div className="col"><h3>Cocktail Type</h3></div>
-            <div className="col"><h3>Ingredients</h3></div>
-            <div className="col"><h3>Instructions</h3></div>
+          <div className="col"></div>
+          <span className="col"><h3>Cocktail Name</h3></span>
+          <span className="col"><h3>Cocktail Type</h3></span>
+          <span className="col"><h3>Ingredients</h3></span>
+          <span className="col"><h3>Instructions</h3></span>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 const Pagination = ({ items, pageSize, onPageChange }) => {
   const { Button } = ReactBootstrap;
@@ -28,14 +28,14 @@ const Pagination = ({ items, pageSize, onPageChange }) => {
   let pages = range(1, num + 1);
   const list = pages.map(page => {
     return (
-      <Button key={page} onClick={onPageChange} className="page-item">
+      <Button key={page} onClick={onPageChange} className="page-item" style={{margin: '0 2px'}}>
         {page}
       </Button>
     );
   });
   return (
     <nav>
-      <ul className="pagination">{list}</ul>
+      <ul className="pagination" style={{display: 'flex', justifyContent: 'center', width: '100%'}}>{list}</ul>
     </nav>
   );
 };
@@ -108,8 +108,8 @@ const dataFetchReducer = (state, action) => {
 };
 // App that gets data from Cocktails url
 function App() {
+  
   const { Fragment, useState, useEffect, useReducer } = React;
-
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const [{ data, isLoading, isError }, doFetch] = useDataApi(
@@ -137,36 +137,30 @@ function App() {
         <div>Loading ...</div>
       ) : (
         <ul>
-            <Header></Header>
+          <Header></Header>
           {page.map((item, index) => (
-
-
-
             <div className="container">
-                <div className="table-wrapper">
-                  <div className="row">
-                <div className="col" >
-                    <img src={item.strDrinkThumb} className="img-thumbnail" style={{width:200,height:200}}/>
-                </div>
-                <div className="col">
+              <div className="table-wrapper">
+                <div className="row">
+                  <div className="col" >
+                    <img src={item.strDrinkThumb} className="img-thumbnail" style={{ width: 200, height: 200 }} />
+                  </div>
+                  <div className="col">
                     {item.strDrink}
+                  </div>
+                  <div className="col">
+                    {item.strCategory}
+                  </div>
+                  <div className="col">
+                    {Object.entries(item).filter(([key, value], i) => key.startsWith("strIngredient"))
+                      .filter(([key, value], i) => value !== null)
+                      .map(([key, value], i) => <option key={i} value={key}>{value}</option>)}
+                  </div>
+                  <div className="col">
+                    {item.strInstructions}
+                  </div>
                 </div>
-              <div className="col">
-                {item.strCategory}
               </div>
-              <div className="col">
-              {Object.entries(item).filter(([key,value],i) => key.startsWith("strIngredient"))
-                .filter(([key,value],i) => value !== null)
-                .map(([key,value],i) => <option key={i} value={key}>{value}</option>)}
-              </div>
-              <div className="col">
-                {item.strInstructions}
-              </div>
-               
-
-
-            </div>
-            </div>
             </div>
           ))}
         </ul>
