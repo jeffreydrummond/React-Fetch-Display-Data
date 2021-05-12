@@ -14,6 +14,7 @@ const Header = () => {
           <span className="col"><h3>Cocktail Name</h3></span>
           <span className="col"><h3>Cocktail Type</h3></span>
           <span className="col"><h3>Ingredients</h3></span>
+          <span className="col"><h3>Measure</h3></span>
           <span className="col"><h3>Instructions</h3></span>
         </div>
       </div>
@@ -153,6 +154,11 @@ function App() {
                   </div>
                   <div className="col">
                     {Object.entries(item).filter(([key, value], i) => key.startsWith("strIngredient"))
+                      .filter(([key, value], i) => value !== null)
+                      .map(([key, value], i) => <option key={i} value={key}>{value}</option>)}
+                  </div>
+                  <div className="col">
+                    {Object.entries(item).filter(([key, value], i) => key.startsWith("strMeasure"))
                       .filter(([key, value], i) => value !== null)
                       .map(([key, value], i) => <option key={i} value={key}>{value}</option>)}
                   </div>
